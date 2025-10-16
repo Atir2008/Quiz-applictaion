@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Application</title>
+       <script src="https://cdn.tailwindcss.com"></script>
+
+  </head>
+
+  <body
+    class="bg-gray-700 flex items-center justify-center min-h-screen text-white"
+    onload="next()"
+  >
+    <div
+      class="bg-white text-gray-800 w-[90%] sm:w-[500px] rounded-2xl shadow-2xl p-8 flex flex-col items-center"
+    >
+      <h1 class="text-3xl font-bold mb-4 text-black">Quiz Application</h1>
+
+      <p id="time" class="text-2xl font-semibold mb-6 text-red-500">2:00</p>
+
+      <h5
+        id="ques"
+        class="text-lg font-medium mb-6 text-center text-gray-700"
+      ></h5>
+
+      <div class="w-full space-y-4">
+        <label
+          class="flex items-center space-x-3 p-3 rounded-xl cursor-pointer transition"
+        >
+          <input  value="1"
+            name="options"
+            onclick="tigger(this)"
+            type="radio"
+            class=" scale-125"/>
+          <span id="option1"></span>
+        </label>
+
+        <label
+          class="flex items-center space-x-3  p-3 rounded-xl cursor-pointer transition"
+        >
+          <input
+            value="2"
+            name="options"
+            onclick="tigger(this)"
+            type="radio"
+            class="accent-indigo-600 scale-125"
+          />
+          <span id="option2"></span>
+        </label>
+
+        <label
+          class="flex items-center space-x-3  p-3 rounded-xl c"
+        >
+          <input
+            value="3"
+            name="options"
+            onclick="tigger(this)"
+            type="radio"
+            class="accent-indigo-600 scale-125"
+          />
+          <span id="option3"></span>
+        </label>
+      </div>
+
+      <button
+        id="btn"
+        disabled
+        onclick="next()"
+        class="mt-8 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-xl"
+      >
+        Next
+      </button>
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="app.js"></script>
+  </body>
+</html>
