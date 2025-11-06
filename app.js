@@ -1,3 +1,21 @@
+const firebaseConfig = {
+  apiKey: "AIzaSyDoiQLIVMWY1jYLq-T0eJox-1FlLTZ68hs",
+  authDomain: "quiz-app-69f80.firebaseapp.com",
+  databaseURL: "https://quiz-app-69f80-default-rtdb.firebaseio.com",
+  projectId: "quiz-app-69f80",
+  storageBucket: "quiz-app-69f80.firebasestorage.app",
+  messagingSenderId: "578877054061",
+  appId: "1:578877054061:web:f65aff0f3f9d833ba7b364",
+  measurementId: "G-9H4Q6P66HV"
+};
+
+// Initialize Firebase
+const app = firebase.initializeApp(firebaseConfig);
+var database = firebase.database();
+var userQuizRef = firebase.database().ref("user_quiz").push();
+
+
+
 var questions = [
   {
     question: "Q1: HTML Stands for?",
@@ -106,23 +124,43 @@ function startTimer() {
 
 function next() {
   var allInputs = document.getElementsByTagName("input");
+  var selectedOption, correctOption;
 
+  // Chked selected option
   for (var i = 0; i < allInputs.length; i++) {
     if (allInputs[i].checked) {
+      selectedOption = questions[index]["option" + allInputs[i].value];
+      correctOption = questions[index].corrAnswer;
       allInputs[i].checked = false;
-      var userSelectedValue = allInputs[i].value;
-      var selectedOption = questions[index - 1]["option" + userSelectedValue];
-      var correctOption = questions[index - 1]["corrAnswer"];
 
-      if (selectedOption === correctOption) {
-        score++;
-      }
+      if (selectedOption === correctOption) score++;
+      break;
     }
   }
 
-  nextBtn.disabled = true;
+  if (!selectedOption) {
+    Swal.fire("Please select an option!");
+    return;
+  }
 
-  if (index > questions.length - 1) {
+
+  var obj = {
+    user_question: questions[index].question,
+    user_correctAnswer: correctOption,
+    user_answer: selectedOption,
+    user_score: score
+  };
+userQuizRef.push(obj)
+.then(function(res){console.log(res);
+})
+.catch(function(err){console.log(err);
+})
+
+  index++; 
+  nextBtn.disabled = true; 
+
+  // Check if quiz finished
+  if (index >= questions.length) {
     clearInterval(timerInterval);
     Swal.fire({
       title: "Quiz Finished!",
@@ -132,20 +170,26 @@ function next() {
       confirmButtonText: "OK",
     });
   } else {
-    quesElement.innerText = questions[index].question;
-    opt1.innerText = questions[index].option1;
-    opt2.innerText = questions[index].option2;
-    opt3.innerText = questions[index].option3;
-    index++;
+    showQuestion();
   }
 }
-
 function tigger(input) {
   nextBtn.disabled = false;
 
-  // Start timer only once
   if (!timerStarted) {
     timerStarted = true;
     startTimer();
   }
+}
+
+
+function showQuestion() {
+  quesElement.innerText = questions[index].question;
+  opt1.innerText = questions[index].option1;
+  opt2.innerText = questions[index].option2;
+  opt3.innerText = questions[index].option3;
+}
+
+window.onload = function() {
+  showQuestion();
 }
